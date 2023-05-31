@@ -43,17 +43,38 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
             }    
 
         }
-        static void DeviderMot(string a)
+        static void DevinerMot(string mot)
         {
-
+            var liste = new List<char>();
+            // Boucler (true)
+            while(true)
+            {
+                AfficherMot(mot, liste);
+                Console.WriteLine();
+                char lettre = DemanderUneLettre();
+                Console.Clear();
+                if(mot.Contains(lettre))
+                {
+                    Console.WriteLine("Cette lettre est dans le mot."); 
+                    liste.Add(lettre);
+                }
+                else {
+                    Console.WriteLine("Cette lettre n'est pas dans le mot.");
+                }
+                Console.WriteLine();
+            }
+            // AfficherMot
+            // DemanderUneLettre
+            //  -> cette lettre est dans le mot -> List<char> add()
+            //  -> cette lettre n'est pas dans le mot 
         }
         static void Main(string[] args)
         {
             string mot = "ELEPHANT";
-            char lettre = DemanderUneLettre();
-            AfficherMot(mot, new List<char> {lettre});
+            // char lettre = DemanderUneLettre();
+            // AfficherMot(mot, new List<char> {lettre});
 
-           // DevinerMot(mot);
+           DevinerMot(mot);
         }
     }
 }
