@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using AsciiArt;
 
 namespace jeu_du_pendu // Note: actual namespace depends on the project name.
 {
@@ -35,11 +37,9 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
             } 
             if (mot.Length == 0) { 
                 return true;
-            }
-            else { 
+            }           
                 return false; 
-            
-            }
+
         }
         static char DemanderUneLettre() { 
 
@@ -65,10 +65,13 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
             var liste = new List<char>();
             const int NB_VIES = 6;
             int viesRestantes = NB_VIES;
+            var mauvaisesLettres = new List<char>();
             // Boucler (true)
-            while(viesRestantes >0)
+            while (viesRestantes >0)
             {
-                AfficherMot(mot, liste);
+                Console.WriteLine(Ascii.PENDU[NB_VIES - viesRestantes]);
+                Console.WriteLine();
+                AfficherMot(mot, liste);             
                 Console.WriteLine();
                 char lettre = DemanderUneLettre();
                 Console.Clear();
@@ -79,18 +82,25 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
                     if (ToutesLettresDevinees(mot, liste))
                     {
                         Console.WriteLine("Bravo ! Vous avez gagné");
-                        break;
+                        return;
                     }
                 }
-                else {
-                    Console.WriteLine("Cette lettre n'est pas dans le mot.");
-                    viesRestantes--;
+                else { 
+                    if(!mauvaisesLettres.Contains(lettre)) { 
+                        mauvaisesLettres.Add(lettre);
+                        viesRestantes--;
+                    }
                     Console.WriteLine("Le nombre de vies est : " + viesRestantes);
+                }
+                if (mauvaisesLettres.Count > 0) { 
+                    Console.WriteLine("Le mot ne contient pas les lettres : " + String.Join(", ", mauvaisesLettres));
                 }
                 Console.WriteLine();
                 
+
                 if (viesRestantes == 0)
                 {
+                    Console.WriteLine(Ascii.PENDU[NB_VIES - viesRestantes]);
                     Console.WriteLine("PERDU ! Le mot était : " + mot);
                 }
 
@@ -106,7 +116,8 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
             // char lettre = DemanderUneLettre();
             // AfficherMot(mot, new List<char> {lettre});
 
-           DevinerMot(mot);
+            DevinerMot(mot);
+
         }
     }
 }
