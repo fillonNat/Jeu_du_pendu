@@ -24,6 +24,23 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
             Console.WriteLine();
 
         }
+
+        static bool ToutesLettresDevinees(string mot, List<char> lettres)
+        {
+            // true -> toutes les lettres ont été trouvées
+            // false 
+            foreach (char lettre in lettres) { 
+                mot = mot.Replace(lettre.ToString(), "");
+                
+            } 
+            if (mot.Length == 0) { 
+                return true;
+            }
+            else { 
+                return false; 
+            
+            }
+        }
         static char DemanderUneLettre() { 
 
             while (true) {
@@ -46,8 +63,10 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
         static void DevinerMot(string mot)
         {
             var liste = new List<char>();
+            const int NB_VIES = 6;
+            int viesRestantes = NB_VIES;
             // Boucler (true)
-            while(true)
+            while(viesRestantes >0)
             {
                 AfficherMot(mot, liste);
                 Console.WriteLine();
@@ -57,11 +76,24 @@ namespace jeu_du_pendu // Note: actual namespace depends on the project name.
                 {
                     Console.WriteLine("Cette lettre est dans le mot."); 
                     liste.Add(lettre);
+                    if (ToutesLettresDevinees(mot, liste))
+                    {
+                        Console.WriteLine("Bravo ! Vous avez gagné");
+                        break;
+                    }
                 }
                 else {
                     Console.WriteLine("Cette lettre n'est pas dans le mot.");
+                    viesRestantes--;
+                    Console.WriteLine("Le nombre de vies est : " + viesRestantes);
                 }
                 Console.WriteLine();
+                
+                if (viesRestantes == 0)
+                {
+                    Console.WriteLine("PERDU ! Le mot était : " + mot);
+                }
+
             }
             // AfficherMot
             // DemanderUneLettre
